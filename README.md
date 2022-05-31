@@ -1,6 +1,6 @@
 # nugunyaneon
 
-A new Flutter project.
+누구냐 넌 backend
 
 ## Getting Started
 
