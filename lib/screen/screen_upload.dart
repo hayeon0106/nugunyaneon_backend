@@ -61,8 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       var dio = Dio();
                       var formData = FormData.fromMap(
                           {'file': await MultipartFile.fromFile(filePath!)});
-                      final response =
-                          await dio.post('/upload', data: formData);
+                      final response = await dio
+                          .post('http://127.0.0.1:8000/upload', data: formData);
                     } else {
                       // 아무런 파일도 선택되지 않음.
                     }
