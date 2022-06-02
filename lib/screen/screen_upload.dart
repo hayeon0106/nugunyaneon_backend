@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       //upload_file.file = result.files.first;
                       final filePath = result.files.single.path;
 
-                      //print_fileInfo(upload_file.file);
+                      //print_fileInfo();
                       var dio = Dio();
                       var formData = FormData.fromMap(
                           {'file': await MultipartFile.fromFile(filePath!)});
