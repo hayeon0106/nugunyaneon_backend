@@ -29,6 +29,8 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
+# 여기에 생성한 모델(직렬화 코드) 추가
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Upload',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -121,6 +125,9 @@ import os
 
 STATIC_URL = '/static/'
 SATATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
