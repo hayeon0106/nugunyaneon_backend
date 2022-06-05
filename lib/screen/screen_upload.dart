@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
 class MyHomePage extends StatefulWidget {
   //MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -55,49 +56,27 @@ class _MyHomePageState extends State<MyHomePage> {
 // file 변수에 있는 데이터를 백에서 처리
                     if (result != null) {
                       //upload_file.file = result.files.first;
-                      final filePath = result.files.single.path;
+                      file = result.files.single;
+                      print(result.files.single);
 
-                      //print_fileInfo();
-                      var dio = Dio();
-                      var formData = FormData.fromMap(
-                          {'file': await MultipartFile.fromFile(filePath!)});
-                      final response = await dio
-                          .post('http://127.0.0.1:8000/upload', data: formData);
+                      postFile(file);
                     } else {
                       // 아무런 파일도 선택되지 않음.
                     }
                   },
-                  child: Text("Choose a file"),
+                  child: Text("파일 선택"),
                 ),
               ),
             ),
             Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 1,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 1,
+                  ),
                 ),
-              ),
-              width: 350,
-              height: 500,
-              child: Scrollbar(
-                child: ListView.builder(
-                  itemBuilder: (BuildContext contest, int index) {
-                    //return upload_file.file.name == 'default'
-                    return file.name == 'default'
-                        ? const ListTile(title: Text("파일을 업로드 해주세요."))
-                        : ListTile(
-                            title: Text(file.name),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                setState(() {});
-                              },
-                            ),
-                          );
-                  },
-                ),
-              ),
-            ),
+                width: 350,
+                height: 500,
+                child: Text(file.name)),
             Padding(
               padding: EdgeInsets.only(bottom: width * 0.048),
             ),
@@ -106,12 +85,35 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   // 장고에 업로드 하는 버튼
                 },
-                child: Text("Upload to Django"),
+                child: Text("분석"),
               ),
             )
           ],
         ),
       ),
     );
+  }
+
+  postFile(PlatformFile file) async {
+    final url = 'http://127.0.0.1:8000/nugunyaneon/upload/';
+
+    FormData formData = FormData.fromMap({
+      "file": file,
+    });
+
+    var dio = new Dio();
+
+    try {
+      var response = await dio.post(
+        url,
+        data: formData,
+      );
+
+      print("응답" + response.data.toString());
+    } catch (eee) {
+      print(eee);
+      //print(eee);
+      //print("error occur");
+    }
   }
 }

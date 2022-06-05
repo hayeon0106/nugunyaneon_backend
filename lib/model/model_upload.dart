@@ -1,11 +1,14 @@
 import 'package:file_picker/file_picker.dart';
 
 class Upload {
+  String file_path;
   PlatformFile file;
 
-  //Upload({this.file});
+  //Upload({this.file_path, this.file});
 
-  Upload.fromMap(Map<PlatformFile, dynamic> map) : file = map['file'];
+  Upload.fromMap(Map<PlatformFile, dynamic> map)
+      : file = map['file'],
+        file_path = map['file_path'];
 }
 
 void print_fileInfo(PlatformFile file) {

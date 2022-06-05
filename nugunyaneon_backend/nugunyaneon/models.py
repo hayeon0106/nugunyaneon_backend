@@ -1,5 +1,18 @@
 from django.db import models
 
 # Create your models here.
-# DB에 들어가게 될 데이터 영역
-# 파일 이름, 파일, STT의 텍스트, 보이스피싱 결과, 전화번호
+# 모델은 DB에 저장할 내용들을 다루는 영역
+
+
+# test
+class Nugunyaneon(models.Model):
+    name = models.CharField(max_length=300)
+    file = models.FileField()
+
+
+# 분석 결과를 전달하는 모델
+class AnalysisResult(models.Model):
+    # 수정 필요. words는 리스트임.
+    words = models.CharField(max_length=100)
+    probability = models.FloatField()
+    phisingType = models.CharField(max_length=50)
