@@ -86,15 +86,16 @@ class _LogInState extends State<LogIn> {
                                   print(_selectedValue);
                                 });
                               }),
-/*
-                          TextField(
-                            controller: controller2,
-                            decoration: InputDecoration(
-                                labelText: "귀하의 '거주 중인 지역'을 입력해주세요. 예. 서울"),
-                            keyboardType: TextInputType.text,
-                            //  obscureText: true,   거주 중인 지역이 * 값으로 출력
-                          ),
 
+                          Container(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                // 장고에 업로드 하는 버튼
+                              },
+                              child: Text("파이썬 코드 확인"),
+                            ),
+                          )
+/*
                           // 버튼
                           SizedBox(
                             height: 40.0,

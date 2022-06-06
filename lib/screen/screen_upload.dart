@@ -1,11 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:nugunyaneon/model/model_upload.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:path_provider/path_provider.dart';
 import 'dart:io';
-import 'package:http/http.dart' as http;
 
 class MyHomePage extends StatefulWidget {
   //MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -56,8 +52,13 @@ class _MyHomePageState extends State<MyHomePage> {
 // file 변수에 있는 데이터를 백에서 처리
                     if (result != null) {
                       //upload_file.file = result.files.first;
-                      file = result.files.single;
+                      PlatformFile file = result.files.single;
+                      File tmp = File(file.path.toString());
+                      print('File: ');
+                      print(tmp);
+                      print('PlatformFile: ');
                       print(result.files.single);
+                      //print(file.name);
 
                       postFile(file);
                     } else {
@@ -94,14 +95,19 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+// post 함수
   postFile(PlatformFile file) async {
-    final url = 'http://127.0.0.1:8000/nugunyaneon/upload/';
+    String url = 'http://127.0.0.1:8000/nugunyaneon/upload/';
 
     FormData formData = FormData.fromMap({
+      //"file_name": file.name,
       "file": file,
     });
 
-    var dio = new Dio();
+    BaseOptions options = BaseOptions(
+      contentType: 'application/x-www-form-urlencoded',
+    );
+    Dio dio = new Dio(options);
 
     try {
       var response = await dio.post(
@@ -114,6 +120,15 @@ class _MyHomePageState extends State<MyHomePage> {
       print(eee);
       //print(eee);
       //print("error occur");
+    }
+  }
+
+  void dioget() async {
+    try {
+      var response = await Dio().get("");
+      print(response);
+    } catch (e) {
+      print(e);
     }
   }
 }
