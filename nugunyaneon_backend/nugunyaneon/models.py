@@ -5,14 +5,14 @@ from django.db import models
 
 
 # test
-class Nugunyaneon(models.Model):
-    name = models.CharField(max_length=300)
+class FileUpload(models.Model):
+    #file_name = models.CharField(max_length=300)
     file = models.FileField()
 
 
 # 분석 결과를 전달하는 모델
 class AnalysisResult(models.Model):
     # 수정 필요. words는 리스트임.
-    words = models.CharField(max_length=100)
+    error = models.CharField(max_length=100)
     probability = models.FloatField()
     phisingType = models.CharField(max_length=50)
