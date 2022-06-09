@@ -35,6 +35,8 @@ class FileAPIMixins(mixins.RetrieveModelMixin, generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
+
+
 # 분석 결과 전달
 @api_view(['GET'])
 def analysisAPI(request):#, file_id):
