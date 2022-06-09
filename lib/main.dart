@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nugunyaneon/screen/screen_upload.dart';
-import 'package:nugunyaneon/model/test.dart';
+import 'package:nugunyaneon/screen/test.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,8 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      //home: MyHomePage(),
-      home: LogIn(),
+      home: MyHomePage(),
+      //home: LogIn(),
     );
   }
 }

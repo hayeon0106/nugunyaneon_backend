@@ -1,8 +1,9 @@
 from django.urls import path, include
-from .views import uploadAPI
-from .views import analysisAPI
+from .views import uploadsAPI, analysisAPI, FilesAPIMixins, FileAPIMixins
 
 urlpatterns = [
-    path("upload/", uploadAPI),
-    path("analysis/", analysisAPI)
+    path("upload/", uploadsAPI),
+    path("analysis/", analysisAPI),
+    path('test/', FilesAPIMixins.as_view()),
+    path('test/<int:file_id>', FileAPIMixins.as_view())
 ]

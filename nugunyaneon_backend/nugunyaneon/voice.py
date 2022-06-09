@@ -136,7 +136,7 @@ class Voice:
         self.to_wav()
         self.recognize() # 음성 텍스트 변환 함수 호출
         self.detection() # 분석 함수 호출
-        self.result_dict['probabiblity'] = round(self.cnt, 2)
+        self.result_dict['probability'] = round(self.cnt, 2)
         #print(f'▶ 보이스피싱 확률 : {self.cnt:.2f}%')
         
         # 보이스피싱 확률이 21% 이상일 때만 작동하도록 함

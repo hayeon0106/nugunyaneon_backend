@@ -1,21 +1,27 @@
 import 'package:file_picker/file_picker.dart';
 
 class Upload {
-  String file_path;
-  PlatformFile file;
+  var file;
 
-  //Upload({this.file_path, this.file});
+  Upload({this.file});
 
-  Upload.fromMap(Map<PlatformFile, dynamic> map)
-      : file = map['file'],
-        file_path = map['file_path'];
+  Upload.fromMap(Map<PlatformFile, dynamic> map) : file = map['file'];
 }
 
-void print_fileInfo(PlatformFile file) {
-  print("파일 업로드");
-  print(file.name); // 파일 이름
-  print(file.bytes); // 바이트
-  print(file.size); // 크기
-  print(file.extension); // 확장자
-  print(file.path); // 경로
+class Result {
+  var error;
+  var probability;
+  var phisingType;
+
+  Result({this.error, this.probability, this.phisingType});
+
+  Result.fromMap(Map<String, dynamic> map)
+      : error = map['error'],
+        probability = map['probability'],
+        phisingType = map['phisingType'];
+
+  Result.fromJson(Map<String, dynamic> json)
+      : error = json['error'],
+        probability = json['probability'],
+        phisingType = json['phisingType'];
 }

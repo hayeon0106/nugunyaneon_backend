@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 //import 'dice.dart';
 
+import 'package:dio/dio.dart';
+
 class LogIn extends StatefulWidget {
   @override
   _LogInState createState() => _LogInState();
 }
 
 class _LogInState extends State<LogIn> {
+  var _getData;
   final _valueList = [
     '10',
     '20',
@@ -64,57 +67,17 @@ class _LogInState extends State<LogIn> {
                       padding: EdgeInsets.all(40.0),
                       child: Column(
                         children: <Widget>[
-                          //TextField(
-                          //  controller: controller,
-                          //  decoration: InputDecoration(
-                          //    labelText: "귀하의 '연령대'를 입력해주세요. 예. 30"
-                          //  ),
-                          //  keyboardType: TextInputType.text,
-                          //),
-
-                          DropdownButton(
-                              value: _selectedValue,
-                              items: _valueList
-                                  .map((value) => DropdownMenuItem(
-                                        value: value,
-                                        child: Text(value.toString()),
-                                      )) // map
-                                  .toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  _selectedValue = value.toString();
-                                  print(_selectedValue);
-                                });
-                              }),
-
                           Container(
                             child: ElevatedButton(
                               onPressed: () {
-                                // 장고에 업로드 하는 버튼
+                                // 장고에서 데이터 받는 버튼
+                                loadData();
                               },
                               child: Text("파이썬 코드 확인"),
                             ),
-                          )
-/*
-                          // 버튼
-                          SizedBox(
-                            height: 40.0,
-                          ), // 버튼이 너무 텍스트에 붙어 있어서 띄움
-                          ButtonTheme(
-                            minWidth: 100.0,
-                            height: 50.0,
-                            child: RaisedButton(
-                                color: Colors.blueAccent,
-                                child: Icon(
-                                  Icons.arrow_forward,
-                                  color: Colors.white,
-                                  size: 35.0,
-                                ),
-                                onPressed: () {
-                                  //정보 입력 후 버튼 눌렀을 때,
-                                }),
                           ),
-*/
+                          Container(child: Text(_getData.toString()))
+
                           //여기까지는 전체
                         ],
                       ),
@@ -128,4 +91,20 @@ class _LogInState extends State<LogIn> {
       ),
     );
   } // build
+
+  loadData() async {
+    Dio dio = Dio();
+
+    final response =
+        await dio.get('http://127.0.0.1:8000/nugunyaneon/analysis/');
+    if (response.statusCode == 200) {
+      print(response);
+      setState(() {
+        // json으로 변환해주는 코드가 필요한 듯 하다...
+        _getData = response.toString();
+      });
+    } else {
+      throw Exception('failed to load data');
+    }
+  }
 } // class
