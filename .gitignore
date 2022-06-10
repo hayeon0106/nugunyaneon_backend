@@ -49,3 +49,6 @@ app.*.map.json
 # secret key
 nugunyaneon_backend/secrets.json
 
+*.wav
+*.mp3
+*.m4a

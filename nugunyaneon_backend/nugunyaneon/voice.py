@@ -27,11 +27,6 @@ error_wav = "EXCEPTION_TRANSE_WAV"
 error_text = "EXCEPTION_TRANSE_TEXT"
 no_error = "NONE"
 
-#AudioSegment.converter = "C:\\Users\\gkdus\\PJ\\fluter\\ffmpeg-2022-06-06-git-73302aa193-full_build\\ffmpeg-2022-06-06-git-73302aa193-full_build\\bin\\ffmpeg.exe"
-#AudioSegment.ffmpeg = "C:\\Users\\gkdus\\PJ\\fluter\\ffmpeg-2022-06-06-git-73302aa193-full_build\\ffmpeg-2022-06-06-git-73302aa193-full_build\\bin\\ffmpeg.exe"
-#AudioSegment.ffprobe ="C:\\Users\\gkdus\\PJ\\fluter\\ffmpeg-2022-06-06-git-73302aa193-full_build\\ffmpeg-2022-06-06-git-73302aa193-full_build\\bin\\ffprobe.exe"
-
-
 class Voice:    
     def __init__(self, input_file):
         self.file = input_file   # 분석을 원하는 음성 파일
@@ -47,7 +42,7 @@ class Voice:
         self.export_cnt = 0 # 새롭게 wav 파일이 만들어졌는지 여부를 알기 위함
 
         # 결과 반환을 위한 딕셔너리
-        self.result_dict = {"error": no_error, "type": "default", "probability": 1, 'token_ko': {}}
+        self.result_dict = {"error": no_error, "phishingType": "default", "probability": 1}#, 'token_ko': {}}
         
         
     # 음성 파일을 wav 파일로 통일하는 함수
@@ -67,7 +62,6 @@ class Voice:
             self.duration_list = [30]*int(duration/30) + [round(duration%30)]
                 
         except:
-            #print('Error')
             self.result_dict['error'] = error_wav
             
     # 음성을 텍스트로 변환하는 함수        
@@ -85,9 +79,9 @@ class Voice:
                 
             #print(self.text)
             
-            #if self.export_cnt == 1:
-            #    if os.path.exists(self.file):
-            #        os.remove(self.file)
+            if self.export_cnt == 1:
+                if os.path.exists(self.file):
+                    os.remove(self.file)
                     
         except: 
             #print('Error')
@@ -98,8 +92,6 @@ class Voice:
         # 단어 리스트
         self.token_ko = pd.DataFrame(okt.pos(self.text), columns=['단어', '형태소'])
         self.token_ko = self.token_ko[(self.token_ko['단어'].str.len() > 1)&(self.token_ko.형태소.isin(['Noun', 'Adverb']))]
-        
-        #display(token_ko)
 
         token_dict = {} # 단어:횟수 딕셔너리 생성
             
@@ -116,7 +108,7 @@ class Voice:
     
         if self.cnt > 100:
             self.cnt = 100  # 확률이 100%를 넘겼을 경우 100으로 초기화
-        self.result_dict['token_ko'] = self.token_ko
+        #self.result_dict['token_ko'] = self.token_ko
             
     # 유형을 분류하는 함수 
     def categorizing(self):
@@ -134,27 +126,26 @@ class Voice:
     # 결과를 출력하는 함수
     def result(self):
         self.to_wav()
+        self.existError()
         self.recognize() # 음성 텍스트 변환 함수 호출
+        self.existError()
         self.detection() # 분석 함수 호출
         self.result_dict['probability'] = round(self.cnt, 2)
-        #print(f'▶ 보이스피싱 확률 : {self.cnt:.2f}%')
         
         # 보이스피싱 확률이 21% 이상일 때만 작동하도록 함
         # 안전: 0~20, 의심: 21~40, 경고: 41~60, 위험: 61~~100
         if self.cnt >= 21:
             type_title = self.categorizing() # 유형 분류 함수 호출
-            self.result_dict['type'] = type_title
-            #print(f'▶ 해당 음성은 {type_title} 보이스피싱일 가능성이 높습니다')
-            #print('▶ 보이스피싱 탐색 결과')
-            #display(self.token_df.head(10))
+            self.result_dict['phishingType'] = type_title
 
         return self.result_dict
     
     def existError(self):
-        return self.result_dict['error'] != no_error
+        if self.result_dict['error'] != no_error:
+            return self.result_dict
 
     def test(self):
         self.result_dict['error'] = no_error
         self.result_dict['probability'] = 70
-        self.result_dict['type'] = '대출사기형'
+        self.result_dict['phishingType'] = '대출사기형'
         return self.result_dict
