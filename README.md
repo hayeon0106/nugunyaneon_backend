@@ -1,6 +1,6 @@
 # nugunyaneon
 
-누구냐 넌 backend
+해커톤 - 누구냐 넌 백엔드
 
 ## Getting Started
 
