@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nugunyaneon/screen/screen_upload.dart';
-import 'package:nugunyaneon/screen/test.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +13,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       home: MyHomePage(),
-      //home: LogIn(),
     );
   }
 }

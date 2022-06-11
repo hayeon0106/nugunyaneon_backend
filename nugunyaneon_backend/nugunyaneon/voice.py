@@ -20,6 +20,9 @@ import contextlib
 
 # 생성된 wav 파일을 지우기 위한 모듈
 import os
+
+import numpy
+import copy
 #-----------------------------------------------
 
 # 오류 관련 상수
@@ -42,7 +45,7 @@ class Voice:
         self.export_cnt = 0 # 새롭게 wav 파일이 만들어졌는지 여부를 알기 위함
 
         # 결과 반환을 위한 딕셔너리
-        self.result_dict = {"error": no_error, "phishingType": "default", "probability": 1}#, 'token_ko': {}}
+        self.result_dict = {"error": no_error, "phishingType": "default", "probability": 1, 'words': []}
         
         
     # 음성 파일을 wav 파일로 통일하는 함수
@@ -92,6 +95,7 @@ class Voice:
         # 단어 리스트
         self.token_ko = pd.DataFrame(okt.pos(self.text), columns=['단어', '형태소'])
         self.token_ko = self.token_ko[(self.token_ko['단어'].str.len() > 1)&(self.token_ko.형태소.isin(['Noun', 'Adverb']))]
+        self.return_words = self.token_ko['단어'].reset_index(drop=True)
 
         token_dict = {} # 단어:횟수 딕셔너리 생성
             
@@ -108,7 +112,8 @@ class Voice:
     
         if self.cnt > 100:
             self.cnt = 100  # 확률이 100%를 넘겼을 경우 100으로 초기화
-        #self.result_dict['token_ko'] = self.token_ko
+        #self.result_dict['words'] = self.return_words.to_list()
+        self.result_dict['words'] = copy.deepcopy(self.token_ko.to_dict())
             
     # 유형을 분류하는 함수 
     def categorizing(self):

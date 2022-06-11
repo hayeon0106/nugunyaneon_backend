@@ -1,12 +1,13 @@
 from django.urls import path, include
-from .views import analysisAPI, FilesAPIMixins, FileAPIMixins, TestAPIMixins
+#from .views import analysisAPI, FilesAPIMixins, FileAPIMixins
+from .views import AnalysisAPIMixins
 
 urlpatterns = [
-    path('analysisAPI/', analysisAPI),
+    path('analysis/', AnalysisAPIMixins.as_view()),
+    path('analysis=<int:fileId>', AnalysisAPIMixins.as_view()),
 
-    path('files/', FilesAPIMixins.as_view()),
-    path('files=<int:fileId>', FileAPIMixins.as_view()),
+    #path('analysisAPI/', analysisAPI),
 
-    path('test/', TestAPIMixins.as_view()),
-    path('test=<int:fileId>', TestAPIMixins.as_view()),
+    #path('files/', FilesAPIMixins.as_view()),
+    #path('files=<int:fileId>', FileAPIMixins.as_view()),
 ]
