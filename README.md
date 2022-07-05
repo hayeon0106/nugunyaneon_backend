@@ -6,4 +6,10 @@
 
 # 기술
 
-> Flutter, Django
+> 개발</br>
+> Python 3.9.12</br>
+> Flutter 3.0.1</br>
+> Dart 2.17.1</br>
+> Django 4.0.5</br>
+
+
